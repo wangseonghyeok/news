@@ -46,6 +46,6 @@ let parseData = JSON.parse(sessionStorage.getItem("recentSearchArray"));
 ![2](https://user-images.githubusercontent.com/102776957/190959687-75ce0b19-5de4-451c-9b07-61f04cbd66f2.jpg)
 
 
-# rror
+# Error
 * newsAPI localhost에서는 모두 잘 작동했지만 Netlify에 사이트를 배포한 후 "리소스 로드 실패: 서버가 426(업그레이드 필요) 상태로 응답
 * API를 https://gnews.io/ 로 전환해서 Netlify에 배포 성공 (GNews는 검색당 기사 10개, API 호출 100개로 제한)
