@@ -11,7 +11,7 @@ newsapi API 이용해 뉴스
 
 # finished version
 ![1](https://user-images.githubusercontent.com/102776957/190958766-53d4a0b5-95e2-49fa-af0a-c3c3381e77c1.jpg)
-
+![3](https://user-images.githubusercontent.com/102776957/190960059-f6572d99-4ca0-471d-8f32-6aba71f30cdf.jpg)
 
 # Features
 * fetchAPI 처리
