@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New API</title>
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/reset.css" />
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" /> -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500&display=swap" rel="stylesheet" />
+
+    <script src="../js/jquery-3.5.1.min.js"></script>
+    <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
+  </head>
+  <body>
+    <div id="wrap">
+      <section id="fixmenu">
+        <div class="util">
+          <div class="circle"><span></span><span></span><span></span></div>
+          <div class="menu"><span></span><span></span></div>
+          <div class="mode">
+            <button class="moonImg"><img src="../images/moon.png" /></button>
+          </div>
+        </div>
+      </section>
+      <div id="container">
+        <header id="header">
+          <div class="header">
+            <h1>Newstime<span>.</span></h1>
+            <nav>
+              <ul class="type-new">
+                <li>
+                  <a href="" data-category="business" class="on">#Business</a>
+                </li>
+                <li>
+                  <a href="" data-category="entertainment">#Entertainment</a>
+                </li>
+                <li><a href="" data-category="health">#Health</a></li>
+                <li><a href="" data-category="science">#Science</a></li>
+                <li><a href="" data-category="sports">#Sports</a></li>
+                <li><a href="" data-category="technology">#Technology</a></li>
+              </ul>
+            </nav>
+            <div class="search-left">
+              <input type="text" id="search" placeholder="Search anything" /><span class="search-icon"><img src="../images/search.png" alt="search" /></span>
+            </div>
+          </div>
+        </header>
+        <div id="recentSearch">
+          <ul class="list">
+            <!-- <li class="on">Choice economy</li>
+            <li>Tesla</li>
+            <li>news</li> -->
+          </ul>
+        </div>
+        <div class="column"></div>
+        <span class="line"></span>
+        <div class="small-column">
+          <h2>Popular articles</h2>
+          <ul class="popular"></ul>
+        </div>
+      </div>
+    </div>
+    <script>
+      const recentSearchList = document.querySelector("#recentSearch .list");
+      let recentSearchArray = [];
+      const searchInput = document.querySelector("#search");
+      const searchIcon = document.querySelector(".search-icon");
+      const apiKey = "d3bd1188a45f4620bc099e6eb1fd01c4";
+      const popular = document.querySelector(".popular");
+      const column = document.querySelector(".column");
+      const moonImg = document.querySelector(".moonImg");
+      moonImg.addEventListener("click", function () {
+        document.body.classList.toggle("darkMode");
+      });
+      const fetchAPI = (url) => {
+        return new Promise((resolve, reject) => {
+          return fetch(url)
+            .then((res) => resolve(res.json()))
+            .catch((err) => reject(err));
+        });
+      };
+      let parseData = JSON.parse(sessionStorage.getItem("recentSearchArray"));
+      if (parseData !== null) {
+        recentSearchArray = [...new Set(parseData)];
+      }
+
+      const parseSessionStorage = function (parsingTxt) {
+        sessionStorage.setItem("recentSearchArray", JSON.stringify(recentSearchArray));
+        parseData = JSON.parse(sessionStorage.getItem("recentSearchArray"));
+        recentSearchArray = [...new Set(parseData)];
+        console.log(recentSearchArray);
+        let tempHtml = "";
+        recentSearchArray.forEach(function (item, idx) {
+          if (parsingTxt === item) {
+            tempHtml += `<li class="on" data-search="${item}">${item}</li>`;
+          } else {
+            tempHtml += `<li data-search="${item}">${item}</li>`;
+          }
+        });
+        recentSearchList.innerHTML = tempHtml;
+      };
+
+      const searchFunc = async (search) => {
+        try {
+          let url = `https://newsapi.org/v2/everything?q=${search}&apiKey=${apiKey}`;
+          const res = await fetchAPI(url);
+          console.log("검색값 ===> ", res);
+          const { articles: items } = res;
+
+          let catagoryHtml = "";
+          let now = items.publishedAt;
+          now = moment().format("dddd Do MM YYYY");
+          catagoryHtml = `
+                    <div class="big-column">
+                  <img src="${items[0].urlToImage}" alt="" />
+                  <div class="text">
+                    <h1>${items[0].title}</h1>
+                    <p>
+                ${items[0].content}
+                    </p>
+                    <span class="author">
+                      <p>${items[0].source.name}</p>
+                      <p>${now}</p>
+                    </span>
+                  </div>
+                  </div>
+                  <span class="line"></span>
+                  <div class="middle-column">
+                  <ul>
+                    <li>
+                      <img src="${items[1].urlToImage}" alt="image" />
+                      <p>${items[1].source.name}</p>
+                      <h3>${items[1].title}</h3>
+                    </li>
+                    <li style="margin-top: 25px">
+                      <img src="${items[2].urlToImage}" alt="image" />
+                      <p>${items[2].source.name}</p>
+                      <h3>${items[2].title}</h3>
+                    </li>
+                  </ul>
+                  </div>
+                    `;
+          column.innerHTML = catagoryHtml;
+        } catch (err) {
+          console.error(`serachFunc err : `, err);
+        }
+        recentSearchArray.push(search);
+        parseSessionStorage(search);
+      };
+
+      searchIcon.addEventListener("click", () => {
+        let value = searchInput.value;
+        console.log("clicked value : ", value);
+        searchFunc(value);
+      });
+
+      let search = searchInput.value;
+      let searchEnter = searchInput.value;
+
+      const newstime = async function (catagory) {
+        let url = `https://newsapi.org/v2/everything?q=${search}&apiKey=${apiKey}`;
+        let categoryUrl = `https://newsapi.org/v2/top-headlines?country=us&category=${catagory}&apiKey=${apiKey}&pageSize=3`;
+        let PopularUrl = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}&pageSize=5`;
+
+        let data = await fetchAPI(PopularUrl);
+
+        const { articles: items } = data;
+        //const items = data.articles;
+        console.log(items);
+        let popularHtml = "";
+        items.forEach((item, idx) => {
+          let now = item.publishedAt;
+          now = moment().format("dddd Do MM YYYY");
+          popularHtml += `
+                  <li>
+                    <span class="detail">
+                      <p>${now}</p>
+                      <p>${item.source.name}</p>
+                    </span>
+                    <h4>${item.title}</h4>
+                  </li>
+                  `;
+          // console.log(item.source.name);
+        });
+        popular.innerHTML = popularHtml;
+
+        fetch(categoryUrl)
+          .then((res) => {
+            console.log("fetch res ::: ", res);
+            return res.json();
+          })
+          .then((data) => {
+            console.log("fetch data ::: ", data);
+            const items = data.articles;
+            let catagoryHtml = "";
+            let now = items.publishedAt;
+            now = moment().format("dddd Do MM YYYY");
+            catagoryHtml = `
+                    <div class="big-column">
+                  <img src="${items[0].urlToImage}">
+                  <div class="text">
+                    <h1>${items[0].title}</h1>
+                    <p>
+                ${items[0].content}
+                    </p>
+                    <span class="author">
+                      <p>${items[0].source.name}</p>
+                      <p>${now}</p>
+                    </span>
+                  </div>
+                  </div>
+                  <span class="line"></span>
+                  <div class="middle-column">
+                  <ul>
+                    <li>
+                      <img src="${items[1].urlToImage}" alt="image" />
+                      <p>${items[1].source.name}</p>
+                      <h3>${items[1].title}</h3>
+                    </li>
+                    <li style="margin-top: 25px">
+                      <img src="${items[2].urlToImage}" alt="image" />
+                      <p>${items[2].source.name}</p>
+                      <h3>${items[2].title}</h3>
+                    </li>
+                  </ul>
+                  </div>
+                    `;
+            column.innerHTML = catagoryHtml;
+          });
+      };
+
+      newstime("business");
+
+      let typeNew = document.querySelectorAll(".type-new li a");
+
+      typeNew.forEach((item, idx) => {
+        item.addEventListener("click", function (e) {
+          e.preventDefault();
+          //카테고리에 on을 누르면 자식들의 on을 삭제
+
+          typeNew.forEach(function (item) {
+            item.classList.remove("on");
+          });
+          if (this.classList.contains("on")) {
+            this.classList.remove("on");
+          } else {
+            this.classList.add("on");
+          }
+          this.parentElement.previousElementSibling.classList.remove("on");
+          this.parentElement.nextElementSibling.classList.remove("on");
+
+          const newcatagory = item.dataset.category;
+          console.log(newcatagory);
+          newstime(newcatagory);
+        });
+      });
+      recentSearchList.addEventListener("click", function (e) {
+        // console.log(e.target);
+        // console.log(e.currentTarget);
+        column.innerHTML = "";
+        let item = e.target;
+        searchFunc(item.dataset.search);
+      });
+      searchInput.addEventListener("keydown", function (e) {
+        if (e.keyCode == 13) {
+          const input = searchInput.value;
+          searchFunc(input);
+        }
+        typeNew.forEach(function (item, idx) {
+          item.classList.remove("on");
+        });
+      });
+    </script>
+  </body>
+</html>
