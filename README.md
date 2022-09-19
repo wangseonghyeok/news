@@ -17,6 +17,7 @@ newsapi API 이용해 뉴스
 * fetchAPI 처리
 
 # Development(important part)
+
 * 검색창을 검색을했을때 검색내용이 객체로 저장 또는 클릭시 다시 가져올수 있습니다.
 * JSON.parse(sessionStorage.getItem("recentSearchArray") SessionStorage에서 가져와 JSON을 통해 변환
 * sessionStorage.setItem("recentSearchArray", JSON.stringify(recentSearchArray)) JSON을 이용해 String 형식으로 만들어 SessionStorage에 저장 
@@ -41,5 +42,6 @@ let parseData = JSON.parse(sessionStorage.getItem("recentSearchArray"));
         });
         recentSearchList.innerHTML = tempHtml;
       };
-```![2](https://user-images.githubusercontent.com/102776957/190959354-00d667de-b086-4e59-8df9-3753b1247adc.jpg)
+```
+![2](https://user-images.githubusercontent.com/102776957/190959687-75ce0b19-5de4-451c-9b07-61f04cbd66f2.jpg)
 
