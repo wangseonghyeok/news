@@ -42,7 +42,8 @@ button {
 
       .circle {
         margin-top: 60px;
-        display: flex;
+        display: none;
+
         justify-content: center;
 
         span {
@@ -79,6 +80,7 @@ button {
         position: absolute;
         bottom: 60px;
         font-size: 21px;
+        display: none;
       }
     }
   }
@@ -86,12 +88,12 @@ button {
     padding-left: 160px;
     padding-top: 40px;
     #header {
-      width: 100%;
+      // width: 100%;
       .header {
         display: flex;
         align-items: center;
         h1 {
-          font-size: 58px;
+          font-size: clamp(42px, 4vw, 58px);
           font-weight: 500;
           span {
             color: $main-color;
@@ -122,7 +124,7 @@ button {
           border-radius: 100px;
           position: absolute;
           right: 80px;
-          width: 400px;
+          width: clamp(320px, 83vw, 400px);
           height: 52px;
           background-color: #eee;
           input {
@@ -155,15 +157,19 @@ button {
       }
     }
     #recentSearch {
+      display: inline-block;
       .list {
         display: flex;
         flex-wrap: wrap;
-        padding: 20px 0;
+        margin: 20px 0;
+
+        z-index: -1;
         &.on {
           background: #000;
           color: #fff;
         }
         li {
+          z-index: 10;
           font-size: 15px;
           font-weight: 500;
           padding: 10px 30px;
@@ -197,7 +203,7 @@ button {
           word-break: break-all;
           h1 {
             margin-top: 20px;
-            font-size: 38px;
+            font-size: clamp(30px, 4vw, 38px);
             font-weight: 500;
           }
           > p {
@@ -310,4 +316,169 @@ button {
   height: 680px;
   background-color: #ddd;
   box-sizing: border-box;
+}
+@media all and (max-width: 1840px) {
+  #wrap {
+    #container {
+      padding-left: 40px;
+    }
+    #fixmenu {
+      display: none;
+    }
+  }
+}
+@media all and (max-width: 1560px) {
+  #wrap #container #recentSearch .list {
+    margin: 28px 0;
+  }
+}
+@media all and (max-width: 1560px) {
+  .line {
+    display: none;
+  }
+  #wrap {
+    #container {
+      padding-left: 0px;
+      #header {
+        .header {
+          flex-direction: column;
+          nav {
+            ul {
+              margin-top: 10px;
+            }
+          }
+          .search-left {
+            left: 50%;
+            right: 0;
+            transform: translateX(-50%);
+            top: 180px;
+          }
+        }
+      }
+      .column {
+        float: none;
+        display: flex;
+        justify-content: center;
+        margin-top: 160px;
+        .line {
+          display: none;
+        }
+      }
+      #recentSearch {
+        margin-top: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+
+        position: absolute;
+      }
+      .small-wrap {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        .small-column {
+          margin-left: 0px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+    }
+  }
+}
+@media all and (max-width: 1090px) {
+  #wrap {
+    #container {
+      .column {
+        flex-direction: column;
+        align-items: center;
+        .middle-column {
+          margin-top: 50px;
+          margin-left: 0px;
+        }
+      }
+      .small-column {
+        margin-top: 50px;
+      }
+      #header {
+        .header {
+          nav {
+            ul {
+              flex-wrap: wrap;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media all and (max-width: 720px) {
+  #wrap {
+    #container {
+      .column {
+        margin-top: 130px;
+        .big-column {
+          width: clamp(320px, 83vw, 600px);
+          margin: 0 auto;
+          img {
+            width: clamp(320px, 83vw, 600px);
+            height: clamp(320px, 40vw, 360px);
+          }
+        }
+        .middle-column {
+          width: clamp(320px, 83vw, 400px);
+
+          ul {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            li {
+              img {
+                width: clamp(320px, 83vw, 400px);
+              }
+            }
+          }
+        }
+      }
+      .small-column {
+        width: clamp(320px, 83vw, 400px);
+
+        ul {
+          display: flex;
+          flex-direction: column;
+        }
+      }
+      #recentSearch {
+        .list {
+          margin: 5px 0;
+          li {
+            padding: 10px 20px;
+          }
+        }
+      }
+      #header {
+        .header {
+          .search-left {
+            margin-top: 30px;
+          }
+          nav {
+            ul {
+              justify-content: center;
+              align-items: center;
+              li {
+                width: calc(50% - 40px);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media all and (max-width: 600px) {
+  #wrap {
+    #container {
+      .column {
+      }
+    }
+  }
 }

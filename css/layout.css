@@ -42,7 +42,7 @@ button {
 }
 #wrap #fixmenu .util .circle {
   margin-top: 60px;
-  display: flex;
+  display: none;
   justify-content: center;
 }
 #wrap #fixmenu .util .circle span {
@@ -78,20 +78,18 @@ button {
   position: absolute;
   bottom: 60px;
   font-size: 21px;
+  display: none;
 }
 #wrap #container {
   padding-left: 160px;
   padding-top: 40px;
-}
-#wrap #container #header {
-  width: 100%;
 }
 #wrap #container #header .header {
   display: flex;
   align-items: center;
 }
 #wrap #container #header .header h1 {
-  font-size: 58px;
+  font-size: clamp(42px, 4vw, 58px);
   font-weight: 500;
 }
 #wrap #container #header .header h1 span {
@@ -115,7 +113,7 @@ button {
   border-radius: 100px;
   position: absolute;
   right: 80px;
-  width: 400px;
+  width: clamp(320px, 83vw, 400px);
   height: 52px;
   background-color: #eee;
 }
@@ -144,16 +142,21 @@ button {
   font-size: 14px;
   padding-right: 10px;
 }
+#wrap #container #recentSearch {
+  display: inline-block;
+}
 #wrap #container #recentSearch .list {
   display: flex;
   flex-wrap: wrap;
-  padding: 20px 0;
+  margin: 20px 0;
+  z-index: -1;
 }
 #wrap #container #recentSearch .list.on {
   background: #000;
   color: #fff;
 }
 #wrap #container #recentSearch .list li {
+  z-index: 10;
   font-size: 15px;
   font-weight: 500;
   padding: 10px 30px;
@@ -185,7 +188,7 @@ button {
 }
 #wrap #container .column .big-column .text h1 {
   margin-top: 20px;
-  font-size: 38px;
+  font-size: clamp(30px, 4vw, 38px);
   font-weight: 500;
 }
 #wrap #container .column .big-column .text > p {
@@ -287,4 +290,127 @@ button {
   height: 680px;
   background-color: #ddd;
   box-sizing: border-box;
+}
+
+@media all and (max-width: 1840px) {
+  #wrap #container {
+    padding-left: 40px;
+  }
+  #wrap #fixmenu {
+    display: none;
+  }
+}
+@media all and (max-width: 1560px) {
+  #wrap #container #recentSearch .list {
+    margin: 28px 0;
+  }
+}
+@media all and (max-width: 1560px) {
+  .line {
+    display: none;
+  }
+  #wrap #container {
+    padding-left: 0px;
+  }
+  #wrap #container #header .header {
+    flex-direction: column;
+  }
+  #wrap #container #header .header nav ul {
+    margin-top: 10px;
+  }
+  #wrap #container #header .header .search-left {
+    left: 50%;
+    right: 0;
+    transform: translateX(-50%);
+    top: 180px;
+  }
+  #wrap #container .column {
+    float: none;
+    display: flex;
+    justify-content: center;
+    margin-top: 160px;
+  }
+  #wrap #container .column .line {
+    display: none;
+  }
+  #wrap #container #recentSearch {
+    margin-top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    position: absolute;
+  }
+  #wrap #container .small-wrap {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  #wrap #container .small-wrap .small-column {
+    margin-left: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+@media all and (max-width: 1090px) {
+  #wrap #container .column {
+    flex-direction: column;
+    align-items: center;
+  }
+  #wrap #container .column .middle-column {
+    margin-top: 50px;
+    margin-left: 0px;
+  }
+  #wrap #container .small-column {
+    margin-top: 50px;
+  }
+  #wrap #container #header .header nav ul {
+    flex-wrap: wrap;
+  }
+}
+@media all and (max-width: 720px) {
+  #wrap #container .column {
+    margin-top: 130px;
+  }
+  #wrap #container .column .big-column {
+    width: clamp(320px, 83vw, 600px);
+    margin: 0 auto;
+  }
+  #wrap #container .column .big-column img {
+    width: clamp(320px, 83vw, 600px);
+    height: clamp(320px, 40vw, 360px);
+  }
+  #wrap #container .column .middle-column {
+    width: clamp(320px, 83vw, 400px);
+  }
+  #wrap #container .column .middle-column ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  #wrap #container .column .middle-column ul li img {
+    width: clamp(320px, 83vw, 400px);
+  }
+  #wrap #container .small-column {
+    width: clamp(320px, 83vw, 400px);
+  }
+  #wrap #container .small-column ul {
+    display: flex;
+    flex-direction: column;
+  }
+  #wrap #container #recentSearch .list {
+    margin: 5px 0;
+  }
+  #wrap #container #recentSearch .list li {
+    padding: 10px 20px;
+  }
+  #wrap #container #header .header .search-left {
+    margin-top: 30px;
+  }
+  #wrap #container #header .header nav ul {
+    justify-content: center;
+    align-items: center;
+  }
+  #wrap #container #header .header nav ul li {
+    width: calc(50% - 40px);
+  }
 }
